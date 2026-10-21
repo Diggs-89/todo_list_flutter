@@ -6,7 +6,7 @@ void main(){
     debugShowCheckedModeBanner: false,
     home: Scaffold(
       body: Center(
-        child: empty_state(),
+        child: EmptyState(),
       ),
     ),
   ));
