@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/app_settings.dart';
 
@@ -16,7 +15,7 @@ class AppStorage{
     final prefs =await SharedPreferences.getInstance();
 
     if (!prefs.containsKey(_usernameKey)){
-      await prefs.setString(_usernameKey, defaultUsername)
+      await prefs.setString(_usernameKey, defaultUsername);
     }
 
     if (!prefs.containsKey(_passwordKey)){
