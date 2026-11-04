@@ -2,33 +2,34 @@ import 'package:flutter/material.dart';
 import '../models/task.dart';
 
 class TaskInput extends StatefulWidget {
-  final DateTime selectdDate;
-  final void function(String title, DateTime date );
+  final DateTime selectedDate;
+  final void Function(String title, DateTime date) onAdd;
 
+  const TaskInput({
+    super.key,
+    required this.selectedDate,
+    required this.onAdd,
+  });
 
+  @override
+  State<TaskInput> createState() => _TaskInputState();
+}
 
-
- @override
-  State<TaskInput> createState() => _TaskInputState()
- }
-
-
-
- class _TaskInputState extends State<TaskInput>{
-  final TextEditingController _controller =  TextEditingController();
+class _TaskInputState extends State<TaskInput>{
+  final TextEditingController _controller = TextEditingController();
   late DateTime _taskDate;
 
   @override
-  void InitSate(){
+  void initState(){
     super.initState();
-    _taskDate = dateOnly(widget.selectdDate);
+    _taskDate = dateOnly(widget.selectedDate);
   }
 
   @override
-  void didUpdateWidget (TaskInput soldWidget){
-    super.didUpdateWidget((oldWidget));
-    if ((!isSameday(oldWidget.selectdDate, widget.selectdDate))){
-      _taskDate = dateOnly(Widget.selectdDate);
+  void didUpdateWidget(TaskInput oldWidget){
+    super.didUpdateWidget(oldWidget);
+    if (!isSameDay(oldWidget.selectedDate, widget.selectedDate)){
+      _taskDate = dateOnly(widget.selectedDate);
     }
   }
 
@@ -38,15 +39,15 @@ class TaskInput extends StatefulWidget {
     super.dispose();
   }
 
-  Future<void> _pickDate() async{
+  Future<void> _pickDate() async {
     final picked = await showDatePicker(
       context: context,
       initialDate: _taskDate,
       firstDate: DateTime(2020),
-      lastDate: DateTime(20100),
+      lastDate: DateTime(2100),
     );
 
-    if(picked != null){
+    if (picked != null){
       setState(() {
         _taskDate = dateOnly(picked);
       });
@@ -54,8 +55,7 @@ class TaskInput extends StatefulWidget {
   }
 
   void _submit(){
-    final Title = _controller.text.trim();
-
+    final title = _controller.text.trim();
     
   }
- }
+}
