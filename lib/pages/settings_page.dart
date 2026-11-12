@@ -134,19 +134,12 @@ class _settingsPageState extends State<SettingsPage>{
             onTap: _changePassword,
           ),
           const _SectionTitle('sair da conta'),
-          ListTile(
-            const _SectionTitle Text('SOBRE'),
-            
+            const _SectionTitle('SOBRE'),
             const ListTile(
               title: Text('minhas tarefas'),
               subtitle: Text('versão 1.0.0'),
             ),
-          ),
-
-
         ],
-       
-
       ),
       );
   }
