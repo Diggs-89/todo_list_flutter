@@ -50,7 +50,7 @@ class _TodoAppState extends State<_TodoApp> {
       _isLoggedIn = false;
     });
   }
-
+  
   void _handleThemeChanged(bool darkMode){
     setState(() {
       _darkMode = darkMode;
