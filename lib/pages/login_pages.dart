@@ -100,7 +100,7 @@ class _LoginPageState extends State<LoginPage> {
                     textInputAction: TextInputAction.done,
                     onSubmitted: (_) => _login(),
                     decoration: InputDecoration(
-                      labelText: 'senha',
+                      labelText: 'Senha',
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(12),
                       ),
@@ -111,8 +111,8 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     height: 52,
                     child: FilledButton(
-                    onPressed: _login,
-                    child: const Text('Entrar'),
+                      onPressed: _login,
+                      child: const Text('Entrar'),
                     ),
                   ),
                 ],

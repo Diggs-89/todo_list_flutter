@@ -1,31 +1,32 @@
-import 'dart:async';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/task.dart';
 
 class TaskStorage {
-  static const String _StorageKey = 'tasks';
-   Future<List<Task>> loadTasks() async {
+  static const String _storageKey = 'tasks';
+
+  Future<List<Task>> loadTasks() async {
     final prefs = await SharedPreferences.getInstance();
-        final jsonString = prefs.getString(_StorageKey);
+    final jsonString = prefs.getString(_storageKey);
 
-      if (jsonString == null){
-        return[];
-      }
+    if (jsonString == null){
+      return[];
+    }
 
-      final List<dynamic> decodedList = jsonDecode(jsonString);
-      
-      return decodedList
+    final List<dynamic> decodedList = jsonDecode(jsonString);
+
+    return decodedList
       .map((item) => Task.fromJson(item as Map<String, dynamic>))
       .toList();
-    }
+  }
 
-    Future<void> saveTasks(List<Task> tasks) async{
-      final prefs = await SharedPreferences.getInstance();
+  Future<void> saveTasks(List<Task> tasks) async {
+    final prefs = await SharedPreferences.getInstance();
+    
+    final jsonString = jsonEncode(
+      tasks.map((task) => task.toJson()).toList(),
+    );
 
-      final jsonString = jsonEncode(
-        tasks.map((tasks) => tasks.toJson()).toList(),
-      );
-      await prefs.setString(_StorageKey, jsonString);
-    }
+    await prefs.setString(_storageKey, jsonString);
+  }
 }

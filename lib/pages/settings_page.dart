@@ -40,6 +40,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _darkMode = value;
     });
+
     await _appStorage.saveDarkMode(value);
     widget.onThemeChanged(value);
   }
@@ -48,6 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
     setState(() {
       _confirmDelete = value;
     });
+
     await _appStorage.saveConfirmDelete(value);
   }
 
@@ -60,37 +62,40 @@ class _SettingsPageState extends State<SettingsPage> {
           content: const Text('Deseja sair da conta?'),
           actions: [
             TextButton(
-              onPressed: () => Navigator.pop(context, false),
+              onPressed: () => Navigator.pop(context, false), 
               child: const Text('Cancelar'),
             ),
             FilledButton(
-              onPressed: () => Navigator.pop(context, true),
+              onPressed: () => Navigator.pop(context, true), 
               child: const Text('Sair'),
-            ),
+            )
           ],
         );
-      },
+      }
     );
 
-    if (shouldLogout == true) {
+    if (shouldLogout == true){
       await _appStorage.setLoggedIn(false);
-      if (!mounted) {
+      
+      if (!mounted){
         return;
       }
+
       Navigator.pop(context);
+
       widget.onLogout();
     }
   }
 
   Future<void> _changePassword() async {
-    final changed = await showDialog<bool>(
-      context: context,
+    final changed = await showDialog(
+      context: context, 
       builder: (context) {
         return _ChangePasswordDialog(appStorage: _appStorage);
-      },
+      }
     );
 
-    if (changed == true && mounted) {
+    if (changed == true && mounted){
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Senha alterada com sucesso!'),
@@ -100,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return Scaffold(
       appBar: AppBar(
         title: const Text('Configurações'),
@@ -108,41 +113,41 @@ class _SettingsPageState extends State<SettingsPage> {
       body: _isLoading
           ? const Center(child: CircularProgressIndicator())
           : ListView(
-              children: [
-                const _SectionTitle('APARÊNCIA'),
-                SwitchListTile(
-                  title: const Text('Modo escuro'),
-                  subtitle: Text(_darkMode ? '🌙 Ativado' : '☀️ Desativado'),
-                  value: _darkMode,
-                  onChanged: _toggleDarkMode,
+            children: [
+              const _SectionTitle('APARÊNCIA'),
+              SwitchListTile(
+                title: const Text('Modo escuro'),
+                subtitle: Text(_darkMode ? '🌙 Ativado' : '☀️ Desativado'),
+                value: _darkMode, 
+                onChanged: _toggleDarkMode,
+              ),
+              const _SectionTitle('TAREFAS'),
+              SwitchListTile(
+                title: const Text('Confirmar exclusão'),
+                subtitle: const Text(
+                  'Pedir confirmação antes de apagar uma tarefa',
                 ),
-                const _SectionTitle('TAREFAS'),
-                SwitchListTile(
-                  title: const Text('Confirmar exclusão'),
-                  subtitle: const Text(
-                    'Pedir confirmação antes de apagar uma tarefa',
-                  ),
-                  value: _confirmDelete,
-                  onChanged: _toggleConfirmDelete,
-                ),
-                const _SectionTitle('CONTA'),
-                ListTile(
-                  title: const Text('Alterar senha'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: _changePassword,
-                ),
-                ListTile(
-                  title: const Text('Sair da conta'),
-                  trailing: const Icon(Icons.chevron_right),
-                  onTap: _confirmLogout,
-                ),
-                const _SectionTitle('SOBRE'),
-                const ListTile(
-                  title: Text('Minhas Tarefas'),
-                  subtitle: Text('Versão 1.0.0'),
-                ),
-              ],
-            ),
+                value: _confirmDelete, 
+                onChanged: _toggleConfirmDelete
+              ),
+              const _SectionTitle('CONTA'),
+              ListTile(
+                title: const Text('Alterar senha'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: _changePassword,
+              ),
+              ListTile(
+                title: const Text('Sair da conta'),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: _confirmLogout,
+              ),
+              const _SectionTitle('SOBRE'),
+              const ListTile(
+                title: Text('Minhas Tarefas'),
+                subtitle: Text('Versão 1.0.0'),
+              ),
+            ],
+          ),
     );
   }
 }
@@ -179,25 +184,25 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
     final confirm = _confirmController.text.trim();
     final savedPassword = await widget.appStorage.loadPassword();
 
-    if (!mounted) {
+    if (!mounted){
       return;
     }
 
     if (current != savedPassword) {
       setState(() {
-        _errorMessage = 'Senha atual incorreta.';
+        _errorMessage = 'Senha atual incorreta';
       });
       return;
     }
 
-    if (next.isEmpty) {
+    if (next.isEmpty){
       setState(() {
         _errorMessage = 'A nova senha não pode ficar vazia.';
       });
       return;
     }
 
-    if (next != confirm) {
+    if (next != confirm){
       setState(() {
         _errorMessage = 'A confirmação não confere com a nova senha.';
       });
@@ -210,14 +215,16 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
     });
 
     await widget.appStorage.savePassword(next);
-    if (!mounted) {
+
+    if (!mounted){
       return;
     }
+
     Navigator.pop(context, true);
   }
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context){
     return AlertDialog(
       title: const Text('Alterar senha'),
       content: SingleChildScrollView(
@@ -261,11 +268,11 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
       ),
       actions: [
         TextButton(
-          onPressed: _isSaving ? null : () => Navigator.pop(context),
+          onPressed: _isSaving ? null : () => Navigator.pop(context), 
           child: const Text('Cancelar'),
         ),
         FilledButton(
-          onPressed: _isSaving ? null : _save,
+          onPressed: _isSaving ? null : _save, 
           child: const Text('Salvar'),
         ),
       ],
@@ -275,7 +282,6 @@ class _ChangePasswordDialogState extends State<_ChangePasswordDialog> {
 
 class _SectionTitle extends StatelessWidget {
   final String title;
-
   const _SectionTitle(this.title);
 
   @override
@@ -285,9 +291,9 @@ class _SectionTitle extends StatelessWidget {
       child: Text(
         title,
         style: Theme.of(context).textTheme.labelLarge?.copyWith(
-              color: Theme.of(context).colorScheme.primary,
-              fontWeight: FontWeight.bold,
-            ),
+          color: Theme.of(context).colorScheme.primary,
+          fontWeight: FontWeight.bold,
+        ),
       ),
     );
   }
